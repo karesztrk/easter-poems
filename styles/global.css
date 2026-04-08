@@ -1,10 +1,7 @@
 @import url("reset.css") layer(reset);
 @import url("fonts.css") layer(base);
 
-@layer reset,
-  layout,
-  base,
-  typography;
+@layer reset, layout, base, typography;
 
 :root {
   /* Typography */
@@ -49,7 +46,7 @@
   --gap: var(--space-m);
   --full: minmax(var(--gap), 1fr);
   --content-size: 70ch;
-  --narrow-content-size: 64ch;
+  --narrow-content-size: 60ch;
   --content: minmax(
     0,
     calc((var(--content-size) - var(--narrow-content-size)) / 2)
@@ -74,6 +71,7 @@
       [popout-end] var(--full) [full-end];
     row-gap: var(--gap);
     grid-template-rows: min-content 1fr min-content;
+    text-align: center;
   }
 
   :where(body) > * {
@@ -82,6 +80,10 @@
 
   :where(main > *, footer > *, header > *, main > article > *) {
     grid-column: content;
+  }
+
+  :where(main > section) {
+    grid-column: narrow;
   }
 
   body > :is(header, main, footer) {
@@ -118,6 +120,17 @@
   h6 {
     overflow-wrap: break-word;
     hyphens: auto;
+  }
+
+  hr {
+    display: grid;
+    place-items: center;
+    border: none;
+    margin-block: var(--space-3xl);
+
+    &:before {
+      content: "∼";
+    }
   }
 }
 
@@ -196,7 +209,6 @@
 
   pre {
     font-family: var(--font-family);
-    font-size: 24px;
     white-space: pre-line;
   }
 }
