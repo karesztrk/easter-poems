@@ -212,3 +212,16 @@
     white-space: pre-line;
   }
 }
+
+@layer theme {
+  :root {
+    --color-dark: oklch(0.1112 0.0544 316.12);
+    --color-light: oklch(0.9719 0.0152 82.79);
+
+    --color-bg: light-dark(var(--color-light), var(--color-dark));
+    --color-fg: light-dark(var(--color-dark), var(--color-light));
+
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+  }
+}
