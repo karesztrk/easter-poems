@@ -99,6 +99,7 @@
       [popout-end] var(--full) [full-end];
     row-gap: var(--gap);
     grid-template-rows: min-content 1fr min-content;
+    container: main / inline-size;
   }
 
   :where(body) > * {
@@ -233,16 +234,41 @@
       );
     }
   }
+}
+
+@layer components {
+  article {
+    anchor-scope: --article;
+    anchor-name: --article;
+
+    footer {
+      /* background: CanvasText; */
+      /* color: Canvas; */
+      /* border-radius: 8px; */
+
+      ul {
+        margin: 0;
+        padding-inline: var(--space-s);
+        padding-block: var(--space-3xs);
+      }
+    }
+
+    @container main (width > 100ch) {
+      & > footer {
+        position: absolute;
+        position-anchor: --article;
+        position-area: right;
+        margin: 0;
+      }
+    }
+  }
 
   pre {
     font-family: var(--font-family);
     white-space: pre-line;
     padding-inline: var(--space-l-xl);
-    border-inline-start: 1px solid white;
+    border-inline-start: 1px solid CanvasText;
   }
-}
-
-@layer components {
 }
 
 @layer theme {
