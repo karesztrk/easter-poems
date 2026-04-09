@@ -1,7 +1,17 @@
 @import url("reset.css") layer(reset);
 @import url("fonts.css") layer(base);
 
-@layer reset, layout, base, typography;
+@layer reset,
+  layout,
+  base,
+  typography,
+  theme,
+  components,
+  utilities,
+  animations,
+  viewtransition,
+  customproperty,
+  scrollanimation;
 
 :root {
   /* Typography */
@@ -9,10 +19,10 @@
     "ET Book", Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
   --heading-font-family: "Mea Culpa", cursive;
 
-  --body-font-size: 24px;
+  --body-font-size: clamp(1.25rem, 0.9833rem + 0.6667vw, 1.5rem);
 
-  /* Perfect Fourth */
-  --type-ratio: 1.4;
+  /* Augmented Fourth */
+  --type-ratio: 1.414;
 
   --font-size-5: calc(var(--body-font-size) * var(--type-ratio));
   --font-size-4: calc(var(--font-size-5) * var(--type-ratio));
@@ -39,13 +49,31 @@
   /* Space 3xl: 120px → 144px */
   --space-3xl: clamp(7.5rem, 6.8864rem + 2.7273vw, 9rem);
 
+  /* One-up pairs */
+  /* Space 3xs-2xs: 5px → 12px */
+  --space-3xs-2xs: clamp(0.3125rem, 0.1335rem + 0.7955vw, 0.75rem);
+  /* Space 2xs-xs: 10px → 18px */
+  --space-2xs-xs: clamp(0.625rem, 0.4205rem + 0.9091vw, 1.125rem);
+  /* Space xs-s: 15px → 24px */
+  --space-xs-s: clamp(0.9375rem, 0.7074rem + 1.0227vw, 1.5rem);
+  /* Space s-m: 20px → 36px */
+  --space-s-m: clamp(1.25rem, 0.8409rem + 1.8182vw, 2.25rem);
+  /* Space m-l: 30px → 48px */
+  --space-m-l: clamp(1.875rem, 1.4148rem + 2.0455vw, 3rem);
+  /* Space l-xl: 40px → 72px */
+  --space-l-xl: clamp(2.5rem, 1.6818rem + 3.6364vw, 4.5rem);
+  /* Space xl-2xl: 60px → 96px */
+  --space-xl-2xl: clamp(3.75rem, 2.8295rem + 4.0909vw, 6rem);
+  /* Space 2xl-3xl: 80px → 144px */
+  --space-2xl-3xl: clamp(5rem, 3.3636rem + 7.2727vw, 9rem);
+
   --stroke-thin: 1px solid CanvasText;
   --stroke-thick: 2px solid CanvasText;
 
   /* Layout */
   --gap: var(--space-m);
   --full: minmax(var(--gap), 1fr);
-  --content-size: 70ch;
+  --content-size: 150ch;
   --narrow-content-size: 60ch;
   --content: minmax(
     0,
@@ -71,7 +99,6 @@
       [popout-end] var(--full) [full-end];
     row-gap: var(--gap);
     grid-template-rows: min-content 1fr min-content;
-    text-align: center;
   }
 
   :where(body) > * {
@@ -210,7 +237,12 @@
   pre {
     font-family: var(--font-family);
     white-space: pre-line;
+    padding-inline: var(--space-l-xl);
+    border-inline-start: 1px solid white;
   }
+}
+
+@layer components {
 }
 
 @layer theme {
@@ -224,4 +256,7 @@
     background-color: var(--color-bg);
     color: var(--color-fg);
   }
+}
+
+@layer animations {
 }
