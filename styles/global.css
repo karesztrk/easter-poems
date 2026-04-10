@@ -49,7 +49,7 @@
   /* Space 3xl: 120px → 144px */
   --space-3xl: clamp(7.5rem, 6.8864rem + 2.7273vw, 9rem);
 
-  --space-banner: clamp(3.125rem, 15cqi, 20rem);
+  --space-banner: clamp(28.5rem, 25cqi, 50rem);
 
   /* One-up pairs */
   /* Space 3xs-2xs: 5px → 12px */
@@ -136,16 +136,35 @@
     grid-column: full;
     display: grid;
     grid-template-columns: subgrid;
+    background: linear-gradient(
+      in oklch 180deg,
+      var(--color-banner) 20%,
+      var(--color-bg)
+    );
+    overflow: hidden;
+    padding-block-start: 4rem;
 
     h1 {
       grid-column: content;
     }
 
     svg[role="presentation"] {
+      justify-self: center;
       grid-column: full;
-      height: var(--space-banner);
-      width: 100%;
-      color: CanvasText;
+      height: 30rem;
+      width: max(100%, 320rem);
+
+      .background {
+        stroke: var(--color-banner-bg-stroke);
+      }
+
+      .foreground {
+        stroke: var(--color-banner-fg-stroke);
+        fill: var(--color-bg);
+      }
+
+      overflow: visible;
+      vector-effect: non-scaling-stroke;
     }
   }
 }
@@ -270,7 +289,7 @@
     font-family: var(--font-family);
     white-space: pre-line;
     padding-inline: var(--space-l-xl);
-    border-inline-start: 1px solid CanvasText;
+    border-inline-start: 3px solid var(--color-fg);
   }
 }
 
@@ -282,8 +301,35 @@
     --color-bg: light-dark(var(--color-light), var(--color-dark));
     --color-fg: light-dark(var(--color-dark), var(--color-light));
 
+    /* https://harmonizer.evilmartians.com/#jZJNS8QwEIb_yjInhVLysWmbHF3xpCCsN_EQuzEtmzYlbRdh6X83Wd01W6SYS8g7M898ZI5wUK6vbQsCJ2DUQZkexOsRWtkoEIARggRK2w5O9gMIXvhX5WwjQaAUEYauDjtbN7ID0Y7GTMmFRWasnMYsjDDLIh5dQtEZas1iFEGc5lFl2RJqPUNl6ArFTlUtAdhiW4Qziv_bVrY4bTyb9h-otwSqUV394PPoOqM8Vrba34JiFGV8GMuqr2VkJihQejUMdas96Xip58nulPExsitDwK52qhz86gTdyx_6xd5pOBf1ozby00vvemONdY-1rnxbYPemrG5QynPMV36NMCOrgqQ5v_31vZduH7lijIvgumb5ivCU0G_XE3E7SOexYR4hctvJMqTuKEzTFw */
+    --purple-100: oklch(0.96 0.03 310);
+    --purple-200: oklch(0.84 0.11 310);
+    --purple-300: oklch(0.69 0.24 310);
+    --purple-400: oklch(0.64 0.29 310);
+    --purple-500: oklch(0.53 0.28 310);
+    --purple-600: oklch(0.23 0.12 310);
+    --fuchsia-100: oklch(0.96 0.03 320);
+    --fuchsia-200: oklch(0.85 0.14 320);
+    --fuchsia-300: oklch(0.7 0.28 320);
+    --fuchsia-400: oklch(0.64 0.33 320);
+    --fuchsia-500: oklch(0.53 0.27 320);
+    --fuchsia-600: oklch(0.23 0.12 320);
+
+    --color-banner: lch(from var(--color-bg) calc(l + 1) calc(c + 20) h);
+    --color-banner-fg-stroke: light-dark(
+      lch(from var(--color-fg) calc(l + 80) calc(c + 35) calc(h + 183)),
+      lch(from var(--color-bg) calc(l + 80) calc(c + 35) calc(h + 183))
+    );
+    --color-banner-bg-stroke: light-dark(
+      lch(from var(--color-fg) calc(l + 60) calc(c + 15) calc(h + 21)),
+      lch(from var(--color-bg) calc(l + 60) calc(c + 15) calc(h + 21))
+    );
     background-color: var(--color-bg);
     color: var(--color-fg);
+  }
+
+  body > main {
+    background-color: var(--color-bg);
   }
 }
 
