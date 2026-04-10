@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="200" height="200" viewBox="0 0 512 512">
+   <style>
+      @media (prefers-color-scheme:light){.shape{fill:#1e1f24}}@media (prefers-color-scheme:dark){.shape{fill:#fff}}
+   </style>
+    <path d="M476.188 24.146c-6.748-3.504-60.728 38.022-185.304 67.086C230.347 105.355 62.5 153.527 65.286 392.815L0 431.218l20.338 35.598c63.073-40.692 236.014-120.042 409.766-323.621 0 0-26.875 134.419-334.096 311.056 103.685 53.758 249.604 53.758 360.979-76.806 111.359-130.557 19.201-353.299 19.201-353.299" class="shape"/>
+</svg>
