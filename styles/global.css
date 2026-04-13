@@ -281,7 +281,11 @@
         margin: 0;
         padding-inline: var(--space-s);
         padding-block: var(--space-3xs);
+        list-style-position: outside;
       }
+    }
+    li {
+      list-style-type: "❦ ";
     }
   }
 
