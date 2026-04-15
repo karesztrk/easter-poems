@@ -153,6 +153,8 @@
       grid-column: full;
       height: 30rem;
       width: max(100%, 320rem);
+      overflow: visible;
+      vector-effect: non-scaling-stroke;
 
       .background {
         stroke: var(--color-banner-bg-stroke);
@@ -160,11 +162,26 @@
 
       .foreground {
         stroke: var(--color-banner-fg-stroke);
+      }
+
+      .grass {
+        stroke: var(--color-banner-fg-stroke);
+      }
+
+      .torso {
+        stroke: var(--color-banner-flower-leaf);
+      }
+
+      .petals,
+      .leaf,
+      .torso,
+      .foreground {
         fill: var(--color-bg);
       }
 
-      overflow: visible;
-      vector-effect: non-scaling-stroke;
+      .seeds {
+        fill: var(--color-banner-flower-seeds);
+      }
     }
   }
 }
@@ -281,7 +298,6 @@
         margin: 0;
         padding-inline: var(--space-s);
         padding-block: var(--space-3xs);
-        list-style-position: outside;
       }
     }
     li {
@@ -328,6 +344,14 @@
       lch(from var(--color-fg) calc(l + 60) calc(c + 15) calc(h + 21)),
       lch(from var(--color-bg) calc(l + 60) calc(c + 15) calc(h + 21))
     );
+    --color-banner-flower-leaf: light-dark(
+      lch(from var(--color-fg) calc(l + 55) calc(c + 70) calc(h + 183)),
+      lch(from var(--color-bg) calc(l + 55) calc(c + 70) calc(h + 183))
+    );
+    --color-banner-flower-seeds: light-dark(
+      oklch(0.8739 0.3028 91.29),
+      oklch(0.8856 0.0853 91.29)
+    );
     background-color: var(--color-bg);
     color: var(--color-fg);
   }
@@ -338,4 +362,27 @@
 }
 
 @layer animations {
+  @keyframes parallax {
+    to {
+      transform: translateY(
+        calc(var(--parallax-base-speed) * var(--acceleration, 1) * -1)
+      );
+    }
+  }
+
+  svg[role="presentation"] {
+    --parallax-base-speed: 75px;
+    .background-group,
+    .foreground-group {
+      transform-origin: center;
+      animation: parallax ease;
+      animation-timeline: scroll(root);
+      animation-range: 0px 600px;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      --parallax-base-speed: 0;
+    }
+  }
 }
