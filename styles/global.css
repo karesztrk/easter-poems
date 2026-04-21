@@ -307,10 +307,12 @@
 
   pre {
     --_border-size: clamp(30px, 10cqi, 50px);
+    --padding-inline: var(--space-m-l);
+    --padding-block: var(--space-s);
     font-family: var(--font-family);
     white-space: pre-line;
-    padding-inline: var(--space-m-l);
-    padding-block: var(--space-s);
+    padding-inline: var(--padding-inline);
+    padding-block: var(--padding-block);
     border-inline-start: var(--_border-size) solid transparent;
     border-image: url("/assets/poem-border.webp") round;
     border-image-slice: 100;
@@ -381,6 +383,57 @@
     }
   }
 
+  @keyframes fade-in {
+    from {
+      opacity: var(--starting-opacity, 0.5);
+    }
+  }
+
+  @keyframes dimFirefly {
+    0% {
+      opacity: 1;
+    }
+    25% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.8;
+    }
+    75% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes hoverFirefly {
+    0% {
+      transform: translate(0, 0);
+    }
+    12% {
+      transform: translate(3px, 1px);
+    }
+    24% {
+      transform: translate(-2px, 3px);
+    }
+    37% {
+      transform: translate(2px, -2px);
+    }
+    55% {
+      transform: translate(-1px, 0);
+    }
+    74% {
+      transform: translate(0, 2px);
+    }
+    88% {
+      transform: translate(-3px, -1px);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+
   svg[role="presentation"] {
     --parallax-base-speed: 75px;
     .background-group,
@@ -394,6 +447,75 @@
 
     @media (prefers-reduced-motion: reduce) {
       --parallax-base-speed: 0;
+    }
+  }
+  @supports (timeline-trigger-name: --v) {
+    article {
+      --duration: 650ms;
+
+      timeline-trigger: --t view() contain 15% contain 85% / entry 100% exit 0%;
+      trigger-scope: --t;
+
+      & > pre {
+        position: relative;
+
+        &:before,
+        &:after {
+          --fade-speed: 1000ms;
+          position: absolute;
+          inset: 0;
+          content: "";
+          border-radius: 100%;
+          background: yellow;
+          box-shadow:
+            0px 0px 6px 0px #ffeb3b,
+            0px 0px 4px 0px #fdfca9 inset,
+            0px 0px 2px 1px #ffffff42;
+          transition: transform calc(var(--speed) / 12) ease;
+          width: var(--size);
+          height: var(--size);
+
+          transform: rotate(var(--rotatation));
+        }
+
+        &:before {
+          --rotatation: 0deg;
+          --speed: 14s;
+          --size: 6px;
+          --starting-opacity: 0;
+          top: calc(2px + var(--padding-block) / 2);
+          left: calc(-16px + var(--padding-inline) / 2);
+          opacity: 0.7;
+        }
+
+        &:after {
+          --rotatation: 122deg;
+          --speed: 16s;
+          --size: 3px;
+          --starting-opacity: 0;
+          top: calc(1px + var(--padding-block) / 2);
+          left: calc(0px + var(--padding-inline) / 2);
+          opacity: 0.7;
+        }
+
+        &:before,
+        &:after {
+          animation:
+            hoverFirefly var(--speed) infinite,
+            dimFirefly calc(var(--speed) / 2) infinite calc(var(--speed) / 3),
+            fade-in var(--fade-speed) ease-in-out both;
+          animation-trigger:
+            --t play-forwards play-backwards,
+            --t play-forwards play-backwards,
+            --t play-forwards play-backwards;
+        }
+      }
+
+      & {
+        --starting-opacity: 0.75;
+        animation: fade-in var(--duration) ease-in-out both;
+        animation-trigger: --t play-forwards play-backwards;
+      }
     }
   }
 }
