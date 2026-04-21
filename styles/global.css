@@ -312,8 +312,8 @@
     padding-inline: var(--space-m-l);
     padding-block: var(--space-s);
     border-inline-start: var(--_border-size) solid transparent;
-    border-image: url("/assets/poem-border-0.5x.png") round;
-    border-image-slice: 50;
+    border-image: url("/assets/poem-border.webp") round;
+    border-image-slice: 100;
     border-image-repeat: repeat;
 
     @container main (width > 60ch) {
