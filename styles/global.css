@@ -314,14 +314,18 @@
     padding-inline: var(--padding-inline);
     padding-block: var(--padding-block);
     border-inline-start: var(--_border-size) solid transparent;
-    border-image: url("/assets/poem-border.webp") round;
+    border-image-source: image-set(
+      url("/assets/poem-border.avif") type("image/avif"),
+      url("/assets/poem-border.webp") type("image/webp"),
+      url("/assets/poem-border.png") type("image/png")
+    );
     border-image-slice: 100;
     border-image-repeat: repeat;
 
     @container main (width > 60ch) {
-      border-image-repeat: round;
       border-inline-end: var(--_border-size) solid transparent;
       border-block: var(--_border-size) solid transparent;
+      border-image-repeat: round;
     }
   }
 }
