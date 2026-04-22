@@ -315,12 +315,20 @@
     padding-block: var(--padding-block);
     border-inline-start: var(--_border-size) solid transparent;
     border-image-source: image-set(
-      url("/assets/poem-border.avif") type("image/avif"),
-      url("/assets/poem-border.webp") type("image/webp"),
-      url("/assets/poem-border.png") type("image/png")
+      url("/assets/poem-border-dark.avif") type("image/avif"),
+      url("/assets/poem-border-dark.webp") type("image/webp"),
+      url("/assets/poem-border-dark.png") type("image/png")
     );
     border-image-slice: 100;
     border-image-repeat: repeat;
+
+    @media (prefers-color-scheme: light) {
+      border-image-source: image-set(
+        url("/assets/poem-border.avif") type("image/avif"),
+        url("/assets/poem-border.webp") type("image/webp"),
+        url("/assets/poem-border.png") type("image/png")
+      );
+    }
 
     @container main (width > 60ch) {
       border-inline-end: var(--_border-size) solid transparent;
@@ -393,7 +401,7 @@
     }
   }
 
-  @keyframes dimFirefly {
+  @keyframes dim {
     0% {
       opacity: 1;
     }
@@ -411,7 +419,7 @@
     }
   }
 
-  @keyframes hoverFirefly {
+  @keyframes firefly {
     0% {
       transform: translate(0, 0);
     }
@@ -455,17 +463,20 @@
   }
   @supports (timeline-trigger-name: --v) {
     article {
-      --duration: 650ms;
+      --fade-duration: 650ms;
 
       timeline-trigger: --t view() contain 15% contain 85% / entry 100% exit 0%;
       trigger-scope: --t;
 
       & > pre {
         position: relative;
+        --starting-opacity: 0.75;
+        animation: fade-in var(--fade-duration) ease-in-out both;
+        animation-trigger: --t play-forwards play-backwards;
 
         &:before,
         &:after {
-          --fade-speed: 1000ms;
+          --fade-duration: 1000ms;
           position: absolute;
           inset: 0;
           content: "";
@@ -475,7 +486,7 @@
             0px 0px 6px 0px #ffeb3b,
             0px 0px 4px 0px #fdfca9 inset,
             0px 0px 2px 1px #ffffff42;
-          transition: transform calc(var(--speed) / 12) ease;
+          transition: transform calc(var(--fly-duration) / 12) ease;
           width: var(--size);
           height: var(--size);
 
@@ -484,7 +495,7 @@
 
         &:before {
           --rotatation: 0deg;
-          --speed: 14s;
+          --fly-duration: 14s;
           --size: 6px;
           --starting-opacity: 0;
           top: calc(2px + var(--padding-block) / 2);
@@ -494,7 +505,7 @@
 
         &:after {
           --rotatation: 122deg;
-          --speed: 16s;
+          --fly-duration: 16s;
           --size: 3px;
           --starting-opacity: 0;
           top: calc(1px + var(--padding-block) / 2);
@@ -505,21 +516,24 @@
         &:before,
         &:after {
           animation:
-            hoverFirefly var(--speed) infinite,
-            dimFirefly calc(var(--speed) / 2) infinite calc(var(--speed) / 3),
-            fade-in var(--fade-speed) ease-in-out both;
+            firefly var(--fly-duration) infinite,
+            dim calc(var(--fly-duration) / 2) infinite
+              calc(var(--fly-duration) / 3),
+            fade-in var(--fade-duration) ease-in-out both;
           animation-trigger:
             --t play-forwards play-backwards,
             --t play-forwards play-backwards,
             --t play-forwards play-backwards;
         }
       }
-
-      & {
-        --starting-opacity: 0.75;
-        animation: fade-in var(--duration) ease-in-out both;
-        animation-trigger: --t play-forwards play-backwards;
-      }
     }
+  }
+}
+
+@layer customproperty {
+  @property --slice {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 0;
   }
 }
