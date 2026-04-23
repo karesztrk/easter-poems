@@ -336,6 +336,140 @@
       border-image-repeat: round;
     }
   }
+
+  /* Parallax effect */
+  svg[role="presentation"] {
+    --parallax-base-speed: 75px;
+    --parallax-max-range: 600px;
+    .background-group,
+    .foreground-group {
+      transform-origin: center;
+      animation: parallax ease;
+      animation-timeline: scroll(root);
+      animation-range: 0px var(--parallax-max-range);
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      --parallax-base-speed: 0;
+    }
+  }
+
+  /* Fireflies */
+  svg[role="presentation"] {
+    [id^="firefly"] {
+      --base-position: 50%;
+      fill: var(--color-firefly);
+      filter: url(#glow);
+
+      transition:
+        transform calc(var(--fly-duration) / 12) ease,
+        fill 500ms ease;
+
+      r: var(--size);
+
+      animation:
+        firefly var(--fly-duration) infinite,
+        dim calc(var(--fly-duration) / 2) infinite calc(var(--fly-duration) / 3);
+
+      @media (prefers-color-scheme: light) {
+        fill: transparent;
+      }
+
+      cx: calc(var(--delta-x) + var(--base-position));
+      cy: calc(var(--delta-y) + var(--base-position));
+      opacity: var(--opacity);
+    }
+
+    #firefly-1 {
+      --fly-duration: 14s;
+      --size: 3px;
+      --delta-x: -7%;
+      --delta-y: 12px;
+      --i: 1;
+      --opacity: 0.85;
+    }
+    #firefly-2 {
+      --fly-duration: 16s;
+      --size: 2px;
+      --delta-x: 4%;
+      --delta-y: 85px;
+
+      --i: 2;
+      --opacity: 0.5;
+    }
+    #firefly-3 {
+      --fly-duration: 11s;
+      --size: 4px;
+      --delta-x: -2%;
+      --delta-y: 44px;
+      --i: 3;
+      --opacity: 0.65;
+    }
+
+    #firefly-4 {
+      --fly-duration: 18s;
+      --size: 5px;
+      --delta-x: 9%;
+      --delta-y: 80px;
+      --i: 4;
+      --opacity: 0.9;
+    }
+
+    #firefly-5 {
+      --fly-duration: 13s;
+      --size: 2px;
+      --delta-x: -5%;
+      --delta-y: 22px;
+      --i: 5;
+      --opacity: 0.4;
+    }
+
+    #firefly-6 {
+      --fly-duration: 20s;
+      --size: 3px;
+      --delta-x: 1%;
+      --delta-y: 47px;
+      --i: 6;
+      --opacity: 0.75;
+    }
+
+    #firefly-7 {
+      --fly-duration: 9s;
+      --size: 5px;
+      --delta-x: -10%;
+      --delta-y: 35px;
+      --i: 7;
+      --opacity: 0.55;
+    }
+
+    #firefly-8 {
+      --fly-duration: 15s;
+      --size: 4px;
+      --delta-x: 6%;
+      --delta-y: 28px;
+      --i: 8;
+      --opacity: 0.8;
+    }
+
+    #firefly-9 {
+      --fly-duration: 17s;
+      --size: 2px;
+      --delta-x: -3%;
+      --delta-y: 48px;
+      --i: 9;
+      --opacity: 0.45;
+    }
+
+    #firefly-10 {
+      --fly-duration: 12s;
+      --size: 3px;
+      --starting-opacity: 0.7;
+      --delta-x: 8%;
+      --delta-y: 14px;
+      --i: 10;
+    }
+  }
 }
 
 @layer theme {
@@ -377,6 +511,7 @@
       oklch(0.8739 0.3028 91.29),
       oklch(0.8856 0.0853 91.29)
     );
+    --color-firefly: oklch(0.968 0.211 109.77);
     background-color: var(--color-bg);
     color: var(--color-fg);
   }
@@ -403,7 +538,7 @@
 
   @keyframes dim {
     0% {
-      opacity: 1;
+      opacity: var(--opacity, 1);
     }
     25% {
       opacity: 0.4;
@@ -415,7 +550,7 @@
       opacity: 0.5;
     }
     100% {
-      opacity: 1;
+      opacity: var(--opacity, 1);
     }
   }
 
@@ -424,43 +559,30 @@
       transform: translate(0, 0);
     }
     12% {
-      transform: translate(3px, 1px);
+      transform: translate(3px, calc(1px * var(--i, 1)));
     }
     24% {
       transform: translate(-2px, 3px);
     }
     37% {
-      transform: translate(2px, -2px);
+      transform: translate(calc(2px), -2px);
     }
     55% {
-      transform: translate(-1px, 0);
+      transform: translate(calc(-1px * var(--i, 1)), 0);
     }
     74% {
       transform: translate(0, 2px);
     }
     88% {
-      transform: translate(-3px, -1px);
+      transform: translate(-3px, calc(-1px * var(--i, 1)));
     }
     100% {
       transform: translate(0, 0);
     }
   }
+}
 
-  svg[role="presentation"] {
-    --parallax-base-speed: 75px;
-    .background-group,
-    .foreground-group {
-      transform-origin: center;
-      animation: parallax ease;
-      animation-timeline: scroll(root);
-      animation-range: 0px 600px;
-      transform: translateY(0);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      --parallax-base-speed: 0;
-    }
-  }
+@layer scrollanimations {
   @supports (timeline-trigger-name: --v) {
     article {
       --fade-duration: 650ms;
@@ -481,7 +603,7 @@
           inset: 0;
           content: "";
           border-radius: 100%;
-          background: yellow;
+          background: var(--color-firefly);
           box-shadow:
             0px 0px 6px 0px #ffeb3b,
             0px 0px 4px 0px #fdfca9 inset,
@@ -490,27 +612,25 @@
           width: var(--size);
           height: var(--size);
 
-          transform: rotate(var(--rotatation));
+          opacity: 0.7;
         }
 
         &:before {
-          --rotatation: 0deg;
-          --fly-duration: 14s;
           --size: 6px;
           --starting-opacity: 0;
+          --fly-duration: 14s;
+          --i: 1;
           top: calc(2px + var(--padding-block) / 2);
           left: calc(-16px + var(--padding-inline) / 2);
-          opacity: 0.7;
         }
 
         &:after {
-          --rotatation: 122deg;
           --fly-duration: 16s;
           --size: 3px;
           --starting-opacity: 0;
+          --i: 10;
           top: calc(1px + var(--padding-block) / 2);
           left: calc(0px + var(--padding-inline) / 2);
-          opacity: 0.7;
         }
 
         &:before,
@@ -527,13 +647,5 @@
         }
       }
     }
-  }
-}
-
-@layer customproperty {
-  @property --slice {
-    syntax: "<integer>";
-    inherits: true;
-    initial-value: 0;
   }
 }
