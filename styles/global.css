@@ -357,6 +357,28 @@
 
   /* Fireflies */
   svg[role="presentation"] {
+    --mask-duration: 500ms;
+    --fill-duration: 500ms;
+    .cutout {
+      transition: all var(--mask-duration) linear;
+    }
+    .star-group {
+      filter: url(#glow);
+    }
+    .star {
+      fill: var(--color-moon);
+      transition: fill var(--fill-duration) linear;
+    }
+
+    @media (prefers-color-scheme: light) {
+      .star {
+        fill: var(--color-sun);
+      }
+      .cutout {
+        fill: white;
+      }
+    }
+
     [id^="firefly"] {
       --base-position: 50%;
       fill: var(--color-firefly);
@@ -371,6 +393,10 @@
       animation:
         firefly var(--fly-duration) infinite,
         dim calc(var(--fly-duration) / 2) infinite calc(var(--fly-duration) / 3);
+
+      @media (prefers-reduced-motion: reduce) {
+        animation: none;
+      }
 
       @media (prefers-color-scheme: light) {
         fill: transparent;
@@ -512,6 +538,8 @@
       oklch(0.8856 0.0853 91.29)
     );
     --color-firefly: oklch(0.968 0.211 109.77);
+    --color-sun: oklch(0.93 0.1686 101.88);
+    --color-moon: oklch(0.8662 0.0112 192.71);
     background-color: var(--color-bg);
     color: var(--color-fg);
   }
